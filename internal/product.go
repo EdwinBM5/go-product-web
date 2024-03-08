@@ -17,4 +17,5 @@ var (
 	ErrProductDuplicated   = errors.New("Product already exists")
 	ErrProductInvalidField = errors.New("Product is invalid")
 	ErrProductInternal     = errors.New("Product can't be processed")
+	ErrProductsEmpty       = errors.New("Products are empty")
 )
