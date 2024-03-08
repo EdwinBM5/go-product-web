@@ -22,7 +22,7 @@ func (p *ProductDefault) GetByID(id int) (product internal.Product, err error) {
 	return
 }
 
-func (p *ProductDefault) Save(product *internal.Product) (err error) {
-	err = p.repository.Save(product)
+func (p *ProductDefault) Create(product *internal.Product) (err error) {
+	err = p.repository.Create(product)
 	return
 }

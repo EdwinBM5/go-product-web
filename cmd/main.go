@@ -19,6 +19,7 @@ func main() {
 	router := chi.NewRouter()
 	router.Route("/products", func(r chi.Router) {
 		r.Get("/", handler.GetAll())
+		r.Post("/", handler.Create())
 	})
 
 	if err := http.ListenAndServe("localhost:8080", router); err != nil {

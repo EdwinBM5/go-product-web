@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/edwinbm5/go-product-web/internal"
+	"github.com/edwinbm5/go-product-web/internal/platform/tools"
 )
 
 type ProductSlice struct {
@@ -46,13 +47,19 @@ func (p *ProductSlice) GetByID(id int) (product internal.Product, err error) {
 	return
 }
 
-func (p *ProductSlice) Save(product *internal.Product) (err error) {
+func (p *ProductSlice) Create(product *internal.Product) (err error) {
 	for _, p := range (*p).db {
 		if p.CodeValue == (*product).CodeValue {
 			err = internal.ErrProductDuplicated
 			err = fmt.Errorf("%w: The Code value %s already exists", err, (*product).CodeValue)
 			return
 		}
+	}
+
+	err = tools.ParseDate(product.Expiration)
+	if err != nil {
+		err = fmt.Errorf("%w: The expiration date %s is not valid", err, product.Expiration)
+		return
 	}
 
 	p.lastID++
