@@ -11,6 +11,7 @@ import (
 	"github.com/bootcamp-go/web/response"
 	"github.com/edwinbm5/go-product-web/internal"
 	"github.com/edwinbm5/go-product-web/internal/platform/tools"
+	"github.com/go-chi/chi/v5"
 )
 
 type DefaultProduct struct {
@@ -59,7 +60,23 @@ func (d *DefaultProduct) GetAll() http.HandlerFunc {
 
 func (d *DefaultProduct) GetByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		idInt, err := strconv.Atoi(id)
+		if err != nil {
+			response.JSON(w, http.StatusBadRequest, map[string]any{"message": "Invalid ID"})
+			return
+		}
 
+		product, err := d.sv.GetByID(idInt)
+		if err != nil {
+			response.JSON(w, http.StatusInternalServerError, map[string]any{"message": err.Error()})
+			return
+		}
+
+		response.JSON(w, http.StatusOK, map[string]any{
+			"message": "Product found",
+			"product": product,
+		})
 	}
 }
 
