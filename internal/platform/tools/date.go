@@ -17,13 +17,13 @@ var (
 func ParseDate(expiration string) (err error) {
 	date := strings.Split(expiration, "/")
 
-	// validate date format (dd/mm/yyyy)
+	// Validate date format (dd/mm/yyyy)
 	if len(date) != 3 {
 		err = ErrInvalidDate
 		return
 	}
 
-	// validate day
+	// Validate day
 	day, _ := strconv.Atoi(date[0])
 	if day < 1 || day > 31 {
 		err = ErrInvalidDay
@@ -31,7 +31,7 @@ func ParseDate(expiration string) (err error) {
 		return
 	}
 
-	// validate month
+	// Validate month
 	month, _ := strconv.Atoi(date[1])
 	if month < 1 || month > 12 {
 		err = ErrInvalidMonth
@@ -39,7 +39,7 @@ func ParseDate(expiration string) (err error) {
 		return
 	}
 
-	// validate year
+	// Validate year
 	year, err := strconv.Atoi(date[2])
 	if year < 1999 || year > 2099 {
 		err = ErrInvalidYear

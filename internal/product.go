@@ -15,7 +15,7 @@ type Product struct {
 var (
 	ErrProductNotFound     = errors.New("Product not found")
 	ErrProductDuplicated   = errors.New("Product already exists")
-	ErrProductInvalidField = errors.New("Product is invalid")
 	ErrProductInternal     = errors.New("Product can't be processed")
 	ErrProductsEmpty       = errors.New("Products are empty")
+	ErrProductInvalidField = errors.New("Product field is invalid")
 )

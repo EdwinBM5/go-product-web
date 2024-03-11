@@ -1,30 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"os"
 
-	"github.com/edwinbm5/go-product-web/internal/handler"
-	"github.com/edwinbm5/go-product-web/internal/repository"
-
-	"github.com/edwinbm5/go-product-web/internal/service"
-	"github.com/go-chi/chi/v5"
+	"github.com/edwinbm5/go-product-web/internal/application"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	repository := repository.NewProductSlice(nil, 0)
-	service := service.NewDefaultProduct(repository)
-	handler := handler.NewDefaultProduct(service)
 
-	router := chi.NewRouter()
-	router.Route("/products", func(r chi.Router) {
-		r.Get("/", handler.GetAll())
-		r.Post("/", handler.Create())
-		r.Get("/{id}", handler.GetByID())
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
+	App := application.NewDefaultApp(application.ConfigDefaultApp{
+		Title:    os.Getenv("APP_TITLE"),
+		Color:    os.Getenv("APP_CLI_COLOR"),
+		FilePath: os.Getenv("DB_PATH") + os.Getenv("DB_FILE_NAME"),
+		Token:    os.Getenv("TOKEN"),
 	})
 
-	if err := http.ListenAndServe("localhost:8080", router); err != nil {
-		fmt.Println(err)
-		return
-	}
+	App.Run()
 }
